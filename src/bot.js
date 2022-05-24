@@ -70,5 +70,13 @@ module.exports = class DiscordClient {
                 await interaction.reply('Pong!');
             }
         });
+
+        this.client.on('messageCreate', async message => {
+            if (message.author.bot) return;
+
+            if (message.content === '!ping') {
+                message.channel.send('Pong!');
+            }
+        });
     }
 }
