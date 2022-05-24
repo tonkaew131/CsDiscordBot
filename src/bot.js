@@ -1,6 +1,9 @@
 const { createLogger, format, transports } = require('winston');
-
 const { Client, Intents } = require('discord.js');
+
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const commands = require('./commands');
 
 module.exports = class DiscordClient {
     constructor() {
@@ -30,16 +33,36 @@ module.exports = class DiscordClient {
     }
 
     login(token) {
-        this.#handleEvent();
-
         this.client.login(token);
+        this.client.on('ready', () => {
+            this.logger.info(`Logged in as ${this.client.user.tag}!`);
+
+            this.#registerCommand(token);
+        });
+
+        this.#handleEvent();
+    }
+
+    #registerCommand(token) {
+        const rest = new REST({ version: '9' }).setToken(token);
+
+        (async () => {
+            try {
+                this.logger.info('Started refreshing application (/) commands.');
+
+                await rest.put(
+                    Routes.applicationCommands(this.client.user.id),
+                    { body: commands },
+                );
+
+                this.logger.info('Successfully reloaded application (/) commands.');
+            } catch (error) {
+                this.logger.error(error);
+            }
+        })();
     }
 
     #handleEvent() {
-        this.client.on('ready', () => {
-            this.logger.info(`Logged in as ${this.client.user.tag}!`);
-        });
-
         this.client.on('interactionCreate', async interaction => {
             if (!interaction.isCommand()) return;
 
