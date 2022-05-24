@@ -7,7 +7,16 @@ const commands = require('./commands');
 
 module.exports = class DiscordClient {
     constructor() {
-        this.client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+        this.client = new Client({
+            intents: [
+                Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.DIRECT_MESSAGES,
+            ],
+            partials: [
+                'CHANNEL' // Needed for DM message caching
+            ],
+        });
 
         const logLevels = {
             fatal: 0,
@@ -75,7 +84,7 @@ module.exports = class DiscordClient {
             if (message.author.bot) return;
 
             if (message.content === '!ping') {
-                message.channel.send('Pong!');
+                message.reply('Pong!');
             }
         });
     }
