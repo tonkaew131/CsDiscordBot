@@ -10,12 +10,17 @@ git clone https://github.com/tonkaew131/CsDiscordBot.git
 cd tkw-web
 ```
 
+Copy [.env.template](.env.template) into `.env` and config
+```
+cp .env.template .env
+```
+
 Install required packages
 ```bash
 npm install
 ```
 
-Then, run server:
+Then, run the server:
 
 ```bash
 npm start
