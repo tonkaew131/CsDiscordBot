@@ -7,7 +7,7 @@ Discord bot made for Computer Science KMUTNB server
 Clone project
 ```bash
 git clone https://github.com/tonkaew131/CsDiscordBot.git
-cd tkw-web
+cd CsDiscordBot
 ```
 
 Copy [.env.template](.env.template) into `.env` and config
