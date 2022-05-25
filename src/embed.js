@@ -25,7 +25,7 @@ module.exports = class Embed {
 
         let micsCommands = '**• help**: Shows informations about bot\n';
         embed.addField('- Mics commands', micsCommands);
-        return embed;
+        return { embeds: [embed] };
     }
 
     contactEmbed(type = '') {
@@ -38,6 +38,8 @@ module.exports = class Embed {
             'สถิติประยุกต์': 'http://sci.kmutnb.ac.th/uploads/content/870/AS.jpg',
         };
 
+        type = type ? type : '';
+        if (type.startsWith('ภาควิชา')) type = type.replace('ภาควิชา', '');
         if (type in contacts) {
             let image = new MessageAttachment(contacts[type]);
             return { files: [image] };

@@ -45,6 +45,7 @@ module.exports = class DiscordClient {
 
         this.devMode = (process.env.DEV_MODE == 'true' ? true : false);
         this.devGuildID = process.env.DEV_GUILD_ID;
+        this.prefix = process.env.BOT_PREFIX;
     }
 
     login(token) {
@@ -85,20 +86,27 @@ module.exports = class DiscordClient {
             if (!interaction.isCommand()) return;
 
             if (interaction.commandName === 'help') {
-                await interaction.reply({ embeds: [embed.helpEmbed()] });
+                return await interaction.reply({ embeds: [embed.helpEmbed()] });
             }
 
             if (interaction.commandName === 'contact') {
                 let type = interaction.options.getString('ภาควิชา');
-                await interaction.reply(embed.contactEmbed(type));
+                return await interaction.reply(embed.contactEmbed(type));
             }
         });
 
         this.client.on('messageCreate', async message => {
             if (message.author.bot) return;
+            if (!message.content.startsWith(this.prefix)) return;
+            const args = message.content.slice(this.prefix.length).trim().split(/ +/g);
+            const command = args.shift().toLowerCase();
 
-            if (message.content === '!help') {
-                message.reply(embed.helpEmbed());
+            if (command === 'help') {
+                return message.reply(embed.helpEmbed());
+            }
+
+            if (command === 'contact') {
+                return message.reply(embed.contactEmbed(args[0] ? args[0] : ''));
             }
         });
 
