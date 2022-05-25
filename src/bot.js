@@ -5,6 +5,9 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const commands = require('./commands');
 
+const Embed = require('./embed');
+const embed = new Embed();
+
 module.exports = class DiscordClient {
     constructor() {
         this.client = new Client({
@@ -49,6 +52,7 @@ module.exports = class DiscordClient {
         this.client.on('ready', () => {
             this.logger.info(`Logged in as ${this.client.user.tag}!`);
 
+            embed.setProflePicture(this.client.user.avatarURL());
             this.#registerCommand(token);
         });
 
@@ -80,16 +84,16 @@ module.exports = class DiscordClient {
         this.client.on('interactionCreate', async interaction => {
             if (!interaction.isCommand()) return;
 
-            if (interaction.commandName === 'ping') {
-                await interaction.reply('Pong!');
+            if (interaction.commandName === 'help') {
+                await interaction.reply({ embeds: [embed.helpEmbed()] });
             }
         });
 
         this.client.on('messageCreate', async message => {
             if (message.author.bot) return;
 
-            if (message.content === '!ping') {
-                message.reply('Pong!');
+            if (message.content === '!help') {
+                message.reply({ embeds: [embed.helpEmbed()] });
             }
         });
     }
