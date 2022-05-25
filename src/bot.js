@@ -52,7 +52,7 @@ module.exports = class DiscordClient {
         this.client.on('ready', () => {
             this.logger.info(`Logged in as ${this.client.user.tag}!`);
 
-            embed.setProflePicture(this.client.user.avatarURL());
+            embed.setProflePicture(this.client.user.displayAvatarURL());
             this.#registerCommand(token);
         });
 
@@ -87,14 +87,21 @@ module.exports = class DiscordClient {
             if (interaction.commandName === 'help') {
                 await interaction.reply({ embeds: [embed.helpEmbed()] });
             }
+
+            if (interaction.commandName === 'contact') {
+                let type = interaction.options.getString('ภาควิชา');
+                await interaction.reply(embed.contactEmbed(type));
+            }
         });
 
         this.client.on('messageCreate', async message => {
             if (message.author.bot) return;
 
             if (message.content === '!help') {
-                message.reply({ embeds: [embed.helpEmbed()] });
+                message.reply(embed.helpEmbed());
             }
         });
+
+        this.logger.info('Event registered');
     }
 }
