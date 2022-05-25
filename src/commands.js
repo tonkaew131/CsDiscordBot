@@ -1,6 +1,6 @@
 module.exports = commands = [
     {
-        name: 'ping',
-        description: 'Replies with Pong!'
+        name: 'help',
+        description: 'Shows informations about bot'
     }
 ];

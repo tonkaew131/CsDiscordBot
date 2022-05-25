@@ -39,6 +39,9 @@ module.exports = class DiscordClient {
                 logFormat,
             ),
         });
+
+        this.devMode = (process.env.DEV_MODE == 'true' ? true : false);
+        this.devGuildID = process.env.DEV_GUILD_ID;
     }
 
     login(token) {
@@ -57,14 +60,16 @@ module.exports = class DiscordClient {
 
         (async () => {
             try {
-                this.logger.info('Started refreshing application (/) commands.');
+                this.logger.info(`Started refreshing application (/) commands.${this.devMode ? ' (dev)' : ''}`);
 
                 await rest.put(
-                    Routes.applicationCommands(this.client.user.id),
+                    this.devMode ?
+                        Routes.applicationGuildCommands(this.client.user.id, this.devGuildID) :
+                        Routes.applicationCommands(this.client.user.id),
                     { body: commands },
                 );
 
-                this.logger.info('Successfully reloaded application (/) commands.');
+                this.logger.info(`Successfully reloaded application (/) commands.${this.devMode ? ' (dev)' : ''}`);
             } catch (error) {
                 this.logger.error(error);
             }
