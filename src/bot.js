@@ -54,6 +54,9 @@ module.exports = class DiscordClient {
             this.logger.info(`Logged in as ${this.client.user.tag}!`);
 
             embed.setProflePicture(this.client.user.displayAvatarURL());
+            embed.setUsername(this.client.user.username);
+            embed.setID(this.client.user.id);
+            embed.setPrefix(this.prefix);
             this.#registerCommand(token);
         });
 
@@ -86,7 +89,7 @@ module.exports = class DiscordClient {
             if (!interaction.isCommand()) return;
 
             if (interaction.commandName === 'help') {
-                return await interaction.reply({ embeds: [embed.helpEmbed()] });
+                return await interaction.reply(embed.helpEmbed());
             }
 
             if (interaction.commandName === 'contact') {

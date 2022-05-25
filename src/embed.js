@@ -5,7 +5,6 @@ const KMUTNB_COLOR = '#AC3520';
 module.exports = class Embed {
     constructor() {
         this.color = '#154997';
-        this.profilePicture = '';
     }
 
     setColor(color) {
@@ -16,14 +15,28 @@ module.exports = class Embed {
         this.profilePicture = url;
     }
 
+    setUsername(username) {
+        this.username = username;
+    }
+
+    setID(id) {
+        this.id = id;
+    }
+
+    setPrefix(prefix) {
+        this.prefix = prefix;
+    }
+
     helpEmbed() {
         let embed = new MessageEmbed();
         embed.setColor(this.color);
 
         embed.setTitle('**CsDiscordBot\'s Commands**');
         embed.setThumbnail(this.profilePicture);
+        embed.setDescription(`The prefix for <@${this.id}> is \`${this.prefix}\``);
 
         let micsCommands = '**• help**: Shows informations about bot\n';
+        micsCommands += '**• contact**: ช่องทางติดต่อกับภาควิชา\n';
         embed.addField('- Mics commands', micsCommands);
         return { embeds: [embed] };
     }
