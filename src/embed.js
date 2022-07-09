@@ -35,13 +35,15 @@ module.exports = class Embed {
         embed.setThumbnail(this.profilePicture);
         embed.setDescription(`The prefix for <@${this.id}> is \`${this.prefix}\``);
 
-        let micsCommands = '**• help**: Shows informations about bot\n';
-        micsCommands += '**• contact**: ช่องทางติดต่อกับภาควิชา\n';
-        embed.addField('- Mics commands', micsCommands);
+        let mainCommands = '**• help**: Shows informations about bot\n';
+        mainCommands += '**• contact**: ช่องทางติดต่อกับภาควิชา\n';
+        mainCommands += '**• timetable**: ลิงค์ตารางเรียน\n';
+        embed.addField('- Main commands', mainCommands);
         return { embeds: [embed] };
     }
 
     contactEmbed(type = '') {
+        // This is 2564
         const contacts = {
             'คณิตศาสตร์': 'http://sci.kmutnb.ac.th/uploads/content/870/MA.jpg',
             'เคมีอุตสาหกรรม': 'http://sci.kmutnb.ac.th/uploads/content/870/IC.jpg',
@@ -61,6 +63,7 @@ module.exports = class Embed {
         let embed = new MessageEmbed();
         embed.setColor(KMUTNB_COLOR);
 
+        // This is 2564
         embed.setTitle('ช่องทางติดต่อกับภาควิชา (คณะวิทยาศาสตร์ประยุกต์)');
         embed.addField('- ภาควิชาคณิตศาสตร์', '• [LINE](http://line.me/ti/g/vPiX6UK46G)');
         embed.addField('- ภาควิชาเคมีอุตสาหกรรม', '• [LINE](http://line.me/ti/g/iDyXnhJzpM)');
@@ -70,5 +73,9 @@ module.exports = class Embed {
         embed.addField('- ภาควิชาคอมพิวเตอร์และสารสนเทศ', '• [LINE](https://line.me/ti/g2/nUZ6Jg9GDj6XZ7TkV-x1Tw?utm_source=invitation&utm_medium=QR_code&utm_campaign=default)');
         embed.addField('- ภาควิชาสถิติประยุกต์', '• [LINE](http://line.me/ti/g/aWFxflYW-l)');
         return { embeds: [embed] };
+    }
+
+    timetableEmbed() {
+        return 'http://klogic.kmutnb.ac.th:8080/kris/tess/dataQuerySelector.jsp?query=studentTab';
     }
 };

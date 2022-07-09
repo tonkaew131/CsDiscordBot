@@ -3,7 +3,7 @@ const { Client, Intents } = require('discord.js');
 
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const commands = require('./commands');
+const commands = require('./commands.data');
 
 const Embed = require('./embed');
 const embed = new Embed();
@@ -58,6 +58,8 @@ module.exports = class DiscordClient {
             embed.setID(this.client.user.id);
             embed.setPrefix(this.prefix);
             this.#registerCommand(token);
+
+            this.client.user.setActivity('💀 cs!help', { type: 'LISTENING' });
         });
 
         this.#handleEvent();
@@ -96,6 +98,10 @@ module.exports = class DiscordClient {
                 let type = interaction.options.getString('ภาควิชา');
                 return await interaction.reply(embed.contactEmbed(type));
             }
+
+            if (interaction.commandName === 'timetable') {
+                return await interaction.reply(embed.timetableEmbed());
+            }
         });
 
         this.client.on('messageCreate', async message => {
@@ -110,6 +116,10 @@ module.exports = class DiscordClient {
 
             if (command === 'contact') {
                 return message.reply(embed.contactEmbed(args[0] ? args[0] : ''));
+            }
+
+            if (command === 'timetable') {
+                return message.reply(embed.timetableEmbed());
             }
         });
 
