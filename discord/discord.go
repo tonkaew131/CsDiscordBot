@@ -1,8 +1,10 @@
 package discord
 
-import "github.com/bwmarrin/discordgo"
+import (
+	"github.com/bwmarrin/discordgo"
+)
 
-func initial() {
-	botClient, err := discordgo.New("")
+func initial(discordToken string) {
+	botClient, err := discordgo.New("Bearer " + discordToken)
 
 }
