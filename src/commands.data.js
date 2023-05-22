@@ -44,5 +44,9 @@ module.exports = commands = [
     {
         name: 'timetable',
         description: 'ลิงค์ตารางเรียน'
+    },
+    {
+        name: 'calendar',
+        description: 'ปฏิทินการศึกษา'
     }
 ];

@@ -102,6 +102,10 @@ module.exports = class DiscordClient {
             if (interaction.commandName === 'timetable') {
                 return await interaction.reply(embed.timetableEmbed());
             }
+
+            if (interaction.commandName === 'calendar') {
+                return await interaction.reply(embed.calendarEmbed());
+            }
         });
 
         this.client.on('messageCreate', async message => {
@@ -120,6 +124,10 @@ module.exports = class DiscordClient {
 
             if (command === 'timetable') {
                 return message.reply(embed.timetableEmbed());
+            }
+
+            if (command === 'calendar') {
+                return message.reply(embed.calendarEmbed());
             }
         });
 

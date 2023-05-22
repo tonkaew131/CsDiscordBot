@@ -79,13 +79,7 @@ module.exports = class Embed {
         return 'http://klogic.kmutnb.ac.th:8080/kris/tess/dataQuerySelector.jsp?query=studentTab';
     }
 
-    calendarEmbed(semester = 1) {
-        const links = {
-            1: 'http://acdserv.kmutnb.ac.th/wp-content/uploads/2022/03/Cert165.pdf',
-            2: 'http://acdserv.kmutnb.ac.th/wp-content/uploads/2022/03/Cert265.pdf',
-            3: 'http://acdserv.kmutnb.ac.th/wp-content/uploads/2022/03/Cert265.pdf',
-        }
-
-        semester = Math.max(semester, );
+    calendarEmbed() {
+        return 'http://acdserv.kmutnb.ac.th/academic-calendar';
     }
 };
