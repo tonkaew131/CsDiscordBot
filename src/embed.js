@@ -38,7 +38,16 @@ module.exports = class Embed {
         let mainCommands = '**• help**: Shows informations about bot\n';
         mainCommands += '**• contact**: ช่องทางติดต่อกับภาควิชา\n';
         mainCommands += '**• timetable**: ลิงค์ตารางเรียน\n';
-        embed.addField('- Main commands', mainCommands);
+        mainCommands += '**• calender**: ปฏิทินการศึกษา\n';
+        embed.addField('- คำสั่ง', mainCommands);
+
+        // let creditField = '<@352448254304321537>';
+        // embed.addField('- ', creditField);
+
+        embed.setFooter({
+            text: 'https://github.com/tonkaew131/CsDiscordBot'
+        });
+
         return { embeds: [embed] };
     }
 
