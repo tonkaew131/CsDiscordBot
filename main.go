@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
 	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 
 	"github.com/tonkaew131/CsDiscordBot/discord"
 )
@@ -16,5 +17,5 @@ func main() {
 
 	discordToken := os.Getenv("DISCORD_TOKEN")
 
-	discord.initial(discordToken)
+	discord.Initial(discordToken)
 }
