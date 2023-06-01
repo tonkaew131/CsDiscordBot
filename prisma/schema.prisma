@@ -16,3 +16,10 @@ model Calendar {
     startFrom   DateTime
     endAt       DateTime?
 }
+
+model Admin {
+    id        String  @id
+    createdBy String?
+
+    superAdmin Boolean @default(false)
+}

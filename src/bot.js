@@ -1,11 +1,18 @@
 import { createLogger, format, transports } from 'winston';
-import { Client, Intents } from 'discord.js';
+import { Client, Intents, Modal, TextInputComponent, MessageActionRow } from 'discord.js';
+
+const TextInputStyles = {
+    SHORT: 1,
+    PARAGRAPH: 2,
+}
 
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import commands from './commands.data.js';
 
 import Embed from './embed.js';
+import prisma from './prisma.js';
+import { generateId } from './utils.js';
 const embed = new Embed();
 
 export default class DiscordClient {
@@ -20,7 +27,7 @@ export default class DiscordClient {
             partials: [
                 'CHANNEL' // Needed for DM message caching
             ],
-        }); 
+        });
 
         const logLevels = {
             fatal: 0,
@@ -89,6 +96,63 @@ export default class DiscordClient {
 
     #handleEvent() {
         this.client.on('interactionCreate', async interaction => {
+            if (interaction.isModalSubmit()) {
+                if (interaction.customId === 'cal_add') {
+                    const userId = interaction.user.id;
+
+                    let admin = undefined;
+                    try {
+                        admin = await prisma.admin.findUnique({
+                            where: {
+                                id: userId,
+                            }
+                        });
+                    } catch (err) {
+                        console.error(err);
+                        return await interaction.reply('Error, getting admin data');
+                    }
+
+                    if (!admin) {
+                        return await interaction.reply('คุณไม่มีสิทธิ์ในการเพิ่มปฏิทินการศึกษา ):');
+                    }
+
+                    const calName = interaction.fields.getTextInputValue('cal_add_name');
+                    const calDesc = interaction.fields.getTextInputValue('cal_add_description');
+                    const calStartFrom = interaction.fields.getTextInputValue('cal_add_startFrom');
+
+                    const calId = generateId();
+
+                    let data = {
+                        id: calId,
+                        name: calName,
+                        description: calDesc,
+                        startFrom: undefined,
+                        createdBy: userId,
+                    };
+
+                    try {
+                        data.startFrom = new Date(calStartFrom);
+                    } catch (err) {
+                        return await interaction.reply('Error: วันผิดหนิ');
+                    }
+
+                    try {
+                        await prisma.calendar.create({
+                            data: data
+                        });
+                    } catch (err) {
+                        console.error(err);
+                        return await interaction.reply('Error, adding calendar');
+                    }
+
+                    return await interaction.reply(`เพิ่มละค้าบ \`\`\`json
+                    ${JSON.stringify(data)}
+                    \`\`\``);
+                }
+
+                return;
+            }
+
             if (!interaction.isCommand()) return;
 
             if (interaction.commandName === 'help') {
@@ -106,6 +170,36 @@ export default class DiscordClient {
 
             if (interaction.commandName === 'calendar') {
                 return await interaction.reply(await embed.calendarEmbed());
+            }
+
+            if (interaction.commandName === 'cal_add') {
+                const userId = interaction.user.id;
+
+                const admin = await prisma.admin.findUnique({
+                    where: {
+                        id: userId,
+                    }
+                });
+
+                if (!admin) {
+                    return await interaction.reply('คุณไม่มีสิทธิ์ในการเพิ่มปฏิทินการศึกษา ):');
+                }
+
+                const modal = new Modal({
+                    customId: 'cal_add',
+                    title: 'เพิ่มปฏิทินการศึกษา',
+                }, this.client);
+
+                const nameInput = new TextInputComponent().setCustomId('cal_add_name').setLabel('ชื่อ').setStyle(TextInputStyles.SHORT);
+                const nameInputAction = new MessageActionRow().addComponents(nameInput);
+                const descInput = new TextInputComponent().setCustomId('cal_add_description').setLabel('รายละเอียด').setStyle(TextInputStyles.PARAGRAPH);
+                const descInputAction = new MessageActionRow().addComponents(descInput);
+                const startInput = new TextInputComponent().setCustomId('cal_add_startFrom').setLabel('เริ่ม (YYYY-MM-DD hh:mm:ss)').setStyle(TextInputStyles.SHORT);
+                const startInputAction = new MessageActionRow().addComponents(startInput);
+
+                modal.addComponents(nameInputAction, descInputAction, startInputAction);
+
+                return await interaction.showModal(modal);
             }
         });
 

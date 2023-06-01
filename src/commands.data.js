@@ -48,6 +48,10 @@ const commands = [
     {
         name: 'calendar',
         description: 'ปฏิทินการศึกษา'
+    },
+    {
+        name: 'cal_add',
+        description: 'ปฏิทินการศึกษา'
     }
 ];
 
