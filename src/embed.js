@@ -39,7 +39,8 @@ export default class Embed {
 
         let mainCommands = '**• help**: Shows informations about bot\n';
         mainCommands += '**• contact**: ช่องทางติดต่อกับภาควิชา\n';
-        mainCommands += '**• timetable**: ลิงค์ตารางเรียน\n';
+        mainCommands += '**• links**: รวมลิงค์ต่างๆ\n';
+        mainCommands += '**• curriculum**: หลักสูตร\n';
         mainCommands += '**• calendar**: ปฏิทินการศึกษา\n';
         embed.addField('- คำสั่ง', mainCommands);
 
@@ -88,6 +89,34 @@ export default class Embed {
 
     timetableEmbed() {
         return 'http://klogic.kmutnb.ac.th:8080/kris/tess/dataQuerySelector.jsp?query=studentTab';
+    }
+
+    curriculumEmbed() {
+        let image = new MessageAttachment('https://cdn.discordapp.com/attachments/1038048164466393148/1112378534074261644/Screenshot_2022-07-11_114001.png');
+        return { files: [image] }
+    }
+
+    linksEmbed() {
+        let embed = new MessageEmbed();
+        embed.setColor(KMUTNB_COLOR);
+
+        // This is 2564
+        embed.setTitle('รวมลิงค์ต่างๆ');
+        embed.addField('- ทั้งมจพ', `
+- [ตารางเรียน](http://klogic.kmutnb.ac.th:8080/kris/tess/dataQuerySelector.jsp?query=studentTab)
+- [ลงทะเบียน](http://klogic.kmutnb.ac.th:8080)
+- [เช็คเกรด](https://grade-report.icit.kmutnb.ac.th)
+- [ประเมินอาจารย์](https://grade.icit.kmutnb.ac.th)
+        `, true);
+        embed.addField('- คณะวิทย์', `
+- [เว็ปคณะ](http://sci.kmutnb.ac.th)
+- [เพจคณะ](https://www.facebook.com/PR.AppSci.KMUTNB)
+        `, true);
+        embed.addField('- ภาควิชาคอม', `
+- [เว็ปคณะ](http://cs.kmutnb.ac.th/index.jsp)
+- [เพจสาขา](https://www.facebook.com/profile.php?id=100057122843991)
+        `, true);
+        return { embeds: [embed] };
     }
 
     async calendarEmbed() {

@@ -164,8 +164,16 @@ export default class DiscordClient {
                 return await interaction.reply(embed.contactEmbed(type));
             }
 
-            if (interaction.commandName === 'timetable') {
-                return await interaction.reply(embed.timetableEmbed());
+            // if (interaction.commandName === 'timetable') {
+            //     return await interaction.reply(embed.timetableEmbed());
+            // }
+
+            if (interaction.commandName === 'links') {
+                return await interaction.reply(embed.linksEmbed());
+            }
+
+            if (interaction.commandName === 'curriculum') {
+                return await interaction.reply(embed.curriculumEmbed());
             }
 
             if (interaction.commandName === 'calendar') {
@@ -217,9 +225,9 @@ export default class DiscordClient {
                 return message.reply(embed.contactEmbed(args[0] ? args[0] : ''));
             }
 
-            if (command === 'timetable') {
-                return message.reply(embed.timetableEmbed());
-            }
+            // if (command === 'timetable') {
+            //     return message.reply(embed.timetableEmbed());
+            // }
 
             if (command === 'calendar') {
                 return message.reply(await embed.calendarEmbed());

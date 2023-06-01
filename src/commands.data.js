@@ -42,8 +42,12 @@ const commands = [
         ]
     },
     {
-        name: 'timetable',
-        description: 'ลิงค์ตารางเรียน'
+        name: 'links',
+        description: 'รวมลิงค์ต่างๆ'
+    },
+    {
+        name: 'curriculum',
+        description: 'หลักสูตร '
     },
     {
         name: 'calendar',
