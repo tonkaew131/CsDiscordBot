@@ -1,8 +1,10 @@
-const { MessageEmbed, MessageAttachment } = require("discord.js");
+import { MessageEmbed, MessageAttachment } from 'discord.js';
+import prisma from './prisma.js';
+import { formatAgo, formatDate } from './utils.js';
 
 const KMUTNB_COLOR = '#AC3520';
 
-module.exports = class Embed {
+export default class Embed {
     constructor() {
         this.color = '#154997';
     }
@@ -88,7 +90,25 @@ module.exports = class Embed {
         return 'http://klogic.kmutnb.ac.th:8080/kris/tess/dataQuerySelector.jsp?query=studentTab';
     }
 
-    calendarEmbed() {
-        return 'http://acdserv.kmutnb.ac.th/academic-calendar';
+    async calendarEmbed() {
+        const events = await prisma.calendar.findMany({
+            orderBy: {
+                startFrom: 'asc'
+            }
+        });
+
+        let embed = new MessageEmbed();
+        embed.setColor(KMUTNB_COLOR);
+        embed.setTitle('ปฏิทินการศึกษา ภาค 1 ปีการศึกษา 2566');
+
+        for (let i = 0; i < events.length; i++) {
+            const event = events[i];
+
+            embed.addField(`- ${formatDate(event.startFrom)} ${event.name} ⏰ ${formatAgo(event.startFrom)}`, `
+            ${event.description}
+            `);
+        }
+
+        return { embeds: [embed] };
     }
 };

@@ -1,4 +1,4 @@
-module.exports = commands = [
+const commands = [
     {
         name: 'help',
         description: 'Shows informations about bot'
@@ -50,3 +50,5 @@ module.exports = commands = [
         description: 'ปฏิทินการศึกษา'
     }
 ];
+
+export default commands;

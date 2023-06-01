@@ -1,14 +1,14 @@
-const { createLogger, format, transports } = require('winston');
-const { Client, Intents } = require('discord.js');
+import { createLogger, format, transports } from 'winston';
+import { Client, Intents } from 'discord.js';
 
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const commands = require('./commands.data');
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
+import commands from './commands.data.js';
 
-const Embed = require('./embed');
+import Embed from './embed.js';
 const embed = new Embed();
 
-module.exports = class DiscordClient {
+export default class DiscordClient {
     constructor() {
         this.client = new Client({
             intents: [
@@ -104,7 +104,7 @@ module.exports = class DiscordClient {
             }
 
             if (interaction.commandName === 'calendar') {
-                return await interaction.reply(embed.calendarEmbed());
+                return await interaction.reply(await embed.calendarEmbed());
             }
         });
 
@@ -127,7 +127,7 @@ module.exports = class DiscordClient {
             }
 
             if (command === 'calendar') {
-                return message.reply(embed.calendarEmbed());
+                return message.reply(await embed.calendarEmbed());
             }
         });
 

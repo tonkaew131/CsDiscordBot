@@ -1,6 +1,6 @@
-const DiscordClient = require('./src/bot');
+import DiscordClient from './src/bot.js';
 
-require('dotenv').config();
+import 'dotenv/config';
 
 const discordClient = new DiscordClient();
 
