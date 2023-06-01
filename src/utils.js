@@ -14,8 +14,6 @@ export function formatAgo(_date) {
         age = Math.abs(Date.now() - _date.getTime());
     }
 
-    console.log(Date.now(), _date.getTime());
-
     const out = [];
 
     const YEAR = 1000 * 60 * 60 * 24 * 365;
@@ -47,6 +45,7 @@ export function formatDate(date) {
     return new Date(date).toLocaleDateString('th-TH', {
         year: 'numeric',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
+        weekday: 'long',
     });
 }

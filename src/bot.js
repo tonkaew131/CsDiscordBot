@@ -14,12 +14,13 @@ export default class DiscordClient {
             intents: [
                 Intents.FLAGS.GUILDS,
                 Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_MESSAGE_TYPING,
                 Intents.FLAGS.DIRECT_MESSAGES,
             ],
             partials: [
                 'CHANNEL' // Needed for DM message caching
             ],
-        });
+        }); 
 
         const logLevels = {
             fatal: 0,

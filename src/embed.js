@@ -40,7 +40,7 @@ export default class Embed {
         let mainCommands = '**• help**: Shows informations about bot\n';
         mainCommands += '**• contact**: ช่องทางติดต่อกับภาควิชา\n';
         mainCommands += '**• timetable**: ลิงค์ตารางเรียน\n';
-        mainCommands += '**• calender**: ปฏิทินการศึกษา\n';
+        mainCommands += '**• calendar**: ปฏิทินการศึกษา\n';
         embed.addField('- คำสั่ง', mainCommands);
 
         // let creditField = '<@352448254304321537>';
@@ -104,7 +104,8 @@ export default class Embed {
         for (let i = 0; i < events.length; i++) {
             const event = events[i];
 
-            embed.addField(`- ${formatDate(event.startFrom)} ${event.name} ⏰ ${formatAgo(event.startFrom)}`, `
+            embed.addField(`- ${formatDate(event.startFrom)}: ${event.name} `, `
+            >> ${formatAgo(event.startFrom)}
             ${event.description}
             `);
         }
