@@ -59,7 +59,7 @@ export default class DiscordClient {
     login(token) {
         this.client.login(token);
         this.client.on('ready', () => {
-            this.logger.info(`Logged in as ${this.client.user.tag}!`);
+            this.logger.info(`Logged in as ${this.client.user.tag}! with ${this.client.users.cache.size} users, ${this.client.guilds.cache.size} guids`);
 
             embed.setProflePicture(this.client.user.displayAvatarURL());
             embed.setUsername(this.client.user.username);
