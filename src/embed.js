@@ -91,11 +91,17 @@ export default class Embed {
     }
 
     async calendarEmbed() {
-        const events = await prisma.calendar.findMany({
-            orderBy: {
-                startFrom: 'asc'
-            }
-        });
+        let events;
+        try {
+            events = await prisma.calendar.findMany({
+                orderBy: {
+                    startFrom: 'asc'
+                }
+            });
+        } catch (err) {
+            console.error(err);
+            return 'ดึงข้อมูลจาก database ไม่ได้ nooooo ;-;';
+        }
 
         let embed = new MessageEmbed();
         embed.setColor(KMUTNB_COLOR);
